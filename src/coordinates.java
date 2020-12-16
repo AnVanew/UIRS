@@ -87,21 +87,16 @@ public class coordinates {
 
     double V0 = sqrt(dX * dX + dY * dY + dZ * dZ);
     double r0 = sqrt(X * X + Y * Y + Z * Z);
-//    double Vc = sqrt(398603.0E9 / r0);
-    double Vc = sqrt(2 / r0);
+    double Vc = sqrt(1 / r0); //мю = 1
 
-//    double a = 2 * r0 / (2 - pow((V0 / Vc), 2)); // из учебника
-    double a = 1 / (2 / r0 - V0 * V0 / 1); //из википедии формула, из учебника не сходится
-//    System.out.println(a);
+    double a = r0 / (2 - pow((V0 / Vc), 2)); // из учебника
+    System.out.println("a:" + a);
 
-//    double e = sqrt(pow((V0 * V0 / Vc / Vc - 1), 2) + r0 / a * pow(V0 / Vc, 2) * pow(
-//        (X * dX + Y * dY + Z * dZ) / (r0 * V0), 2));
+    double e = sqrt(pow((pow(V0 / Vc, 2) - 1), 2) + r0 / a * pow(V0 / Vc, 2) * pow(
+        (X * dX + Y * dY + Z * dZ) / (r0 * V0), 2));
+    System.out.println("e:" + e);
 
-    double e0 = abs(pow(V0 / Vc, 2) - 1);
-    double e = pow(e0, 2) + (1 - pow(e0, 2)) * pow((X * dX + Y * dY + Z * dZ) / (r0 * V0), 2);
-
-    System.out.println(e);
-
+    System.out.println();
     return null;
   }
 

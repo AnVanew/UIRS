@@ -10,7 +10,7 @@ public class test {
       for (double j = 0, m = 0, o = 0, w = 0; j <= 2 * Math.PI;
           j += 2 * Math.PI / 100, m += 2 * Math.PI / 200, o += 2 * Math.PI / 100, w +=
               2 * Math.PI / 200) {
-        coordinates = new coordinates(1300000, 0.35, 0.005, o, w, m);
+        coordinates = new coordinates(130000, 0.0549, 0.005, o, w, m);
 
         double[] x = coordinates.coordinates(j);
 
