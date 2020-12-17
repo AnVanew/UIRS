@@ -8,12 +8,12 @@ public class test {
 
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("result.txt"))) {
       for (double j = 0, o = 0, w = 0; j <= 2 * Math.PI;
-          j = o = w = w+2*Math.PI/100) {
-        coordinates = new coordinates(130000, 0.0549, 0.005, o, w, 0);
+          j = w = w+2*Math.PI/100) {
+        coordinates = new coordinates(130000, 0.0549, 0.005, 0, w, 0);
 
         double[] x = coordinates.coordinates(j);
 
-        String str = String.format("%20f %20f %20f\n", x[0], x[1], x[2]);
+        String str = String.format("%20f %20f %20f;\n", x[0], x[1], x[2]);
 
         writer.write(str);
 

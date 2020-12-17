@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.Math.*;
 
@@ -49,32 +50,14 @@ public class coordinates {
     x[5] = x[2] * vr / r + cos(u) * sin(i) * vn; //dz
 
 
-    System.out.println("w1 = "+w);
+    System.out.println("M01 = "+M0);
     return x;
   }
 
-  //Метод, возвращающий HashMap параметров орбиты по входному массиву координат
-//  public Map<String, Double> orbitElemCalc(double[] x, double t) {
-//
-//    Map<String, Double> result = new LinkedHashMap<>();
-//
-//    double r = sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2]);
-//    result.put("r", r);
-//    double u = PI - asin(x[2] / (sin(i) * r));
-//
-//    result.put("u", u);
-//    double v = u - w;
-//    result.put("v", v);
-//    double E = 2 * Math.atan(Math.tan(v / 2) / Math.sqrt((1 + e) / (1 - e)));
-//
-//    result.put("E", E);
-//    double M = E - e * Math.sin(E);
-//    result.put("M", M);
-//
-//    return result;
-//  }
+  public Map orbitElem(double[] x, double t) {
 
-  public HashMap orbitElem(double[] x, double t) {
+    Map <String, Double> orrbitElem = new HashMap<>();
+
     double X = x[0];
     double Y = x[1];
     double Z = x[2];
@@ -87,36 +70,32 @@ public class coordinates {
     double Vc = sqrt(1 / r0); //мю = 1
 
     double a = r0 / (2 - pow((V0 / Vc), 2)); // из учебника
-    //System.out.println("a:" + a);
 
     double e = sqrt(pow((pow(V0 / Vc, 2) - 1), 2) + r0 / a * pow(V0 / Vc, 2) * pow(
         (X * dX + Y * dY + Z * dZ) / (r0 * V0), 2));
-    //System.out.println("e:" + e);
 
     double p = a*(1-e*e);
 
     double v0 = atan( (X*dX+Y*dY+Z*dZ) * sqrt(p) / (p-r0) );
-    if ( t>=PI) v0 = PI + v0;
     if (v0<0) v0 = PI + v0;
-    //System.out.println(v0);
 
     double i = acos((X*dY-Y*dX)/sqrt(p*1));  //1 is equal mu
 
-    //double O = asin( (Y*dZ - Z*dY) / (sqrt(p*1)*sin(i)) ); //1 is equal mu
     double O = acos( -1*(Z*dX - X*dZ) / (sqrt(p*1)*sin(i)) ); //1 is equal mu
-    if(t>PI)O=2*PI-O;
-    //System.out.println("O2 = "+O +"   t= "+t);
 
     double w = atan( Z / ( sin(i) * (X*cos(O)+Y*sin(O)) ) );
     if (t>=PI/2 && t<PI*3/2)w=PI+w;
     if (t>=3*PI/2)w = 2*PI+w;
-    System.out.println("w2= "+w +" t= "+t);
 
+    double M0 = t * sqrt(1/(a*a*a));
+    System.out.println(M0);
+    orrbitElem.put("a", a);
+    orrbitElem.put("e", e);
+    orrbitElem.put("i", i);
+    orrbitElem.put("O", O);
+    orrbitElem.put("w", w);
 
-
-
-    System.out.println();
-    return null;
+    return orrbitElem;
   }
 
 
