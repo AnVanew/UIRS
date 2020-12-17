@@ -1,11 +1,6 @@
-import static java.lang.Math.abs;
-import static java.lang.Math.atan;
-import static java.lang.Math.cos;
-import static java.lang.Math.pow;
-import static java.lang.Math.sin;
-import static java.lang.Math.sqrt;
-
 import java.util.HashMap;
+
+import static java.lang.Math.*;
 
 public class coordinates {
 
@@ -53,6 +48,8 @@ public class coordinates {
     x[4] = x[1] * vr / r + (-sin(u) * sin(O) + cos(u) * cos(O) * cos(i)) * vn; //dy
     x[5] = x[2] * vr / r + cos(u) * sin(i) * vn; //dz
 
+
+    System.out.println("w1 = "+w);
     return x;
   }
 
@@ -77,7 +74,7 @@ public class coordinates {
 //    return result;
 //  }
 
-  public HashMap orbitElem(double[] x) {
+  public HashMap orbitElem(double[] x, double t) {
     double X = x[0];
     double Y = x[1];
     double Z = x[2];
@@ -90,11 +87,33 @@ public class coordinates {
     double Vc = sqrt(1 / r0); //мю = 1
 
     double a = r0 / (2 - pow((V0 / Vc), 2)); // из учебника
-    System.out.println("a:" + a);
+    //System.out.println("a:" + a);
 
     double e = sqrt(pow((pow(V0 / Vc, 2) - 1), 2) + r0 / a * pow(V0 / Vc, 2) * pow(
         (X * dX + Y * dY + Z * dZ) / (r0 * V0), 2));
-    System.out.println("e:" + e);
+    //System.out.println("e:" + e);
+
+    double p = a*(1-e*e);
+
+    double v0 = atan( (X*dX+Y*dY+Z*dZ) * sqrt(p) / (p-r0) );
+    if ( t>=PI) v0 = PI + v0;
+    if (v0<0) v0 = PI + v0;
+    //System.out.println(v0);
+
+    double i = acos((X*dY-Y*dX)/sqrt(p*1));  //1 is equal mu
+
+    //double O = asin( (Y*dZ - Z*dY) / (sqrt(p*1)*sin(i)) ); //1 is equal mu
+    double O = acos( -1*(Z*dX - X*dZ) / (sqrt(p*1)*sin(i)) ); //1 is equal mu
+    if(t>PI)O=2*PI-O;
+    //System.out.println("O2 = "+O +"   t= "+t);
+
+    double w = atan( Z / ( sin(i) * (X*cos(O)+Y*sin(O)) ) );
+    if (t>=PI/2 && t<PI*3/2)w=PI+w;
+    if (t>=3*PI/2)w = 2*PI+w;
+    System.out.println("w2= "+w +" t= "+t);
+
+
+
 
     System.out.println();
     return null;
